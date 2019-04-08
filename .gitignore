@@ -1,0 +1,6 @@
+*.log
+*.db
+*.swp
+*.db-wal
+*.db-shm
+*.sav

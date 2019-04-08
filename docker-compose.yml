@@ -1,0 +1,54 @@
+version: "3.0"
+services:
+  build:
+    image: $USER/debian-stretch-build:latest
+    build:
+      context: packages/debian-stretch-build
+  osmo-bsc:
+    image: $USER/osmo-bsc:latest
+    build:
+      context: packages/osmo-bsc-latest
+    volumes:
+            - osmocom-data:/data
+    network_mode: "host"
+    restart: unless-stopped
+  osmo-msc:
+    image: $USER/osmo-msc:master
+    build:
+      context: packages/osmo-msc-master
+    depends_on:
+      - build
+    volumes:
+            - osmocom-data:/data
+    network_mode: "host"
+    restart: unless-stopped
+  osmo-mgw:
+    image: $USER/osmo-mgw:latest
+    build:
+      context: packages/osmo-mgw-latest
+    volumes:
+            - osmocom-data:/data
+    network_mode: "host"
+    restart: unless-stopped
+  osmo-hlr:
+    image: $USER/osmo-hlr:latest
+    build:
+      context: packages/osmo-hlr-latest
+    volumes:
+            - osmocom-data:/data
+    network_mode: "host"
+    restart: unless-stopped
+  osmo-stp:
+    image: $USER/osmo-stp:latest
+    build:
+      context: packages/osmo-stp-latest
+    volumes:
+            - osmocom-data:/data
+    network_mode: "host"
+    restart: unless-stopped
+volumes:
+  osmocom-data:
+    driver_opts:
+      type: none
+      device: $PWD/config/
+      o: bind
